@@ -1,0 +1,52 @@
+#file-name: postgresql-backup-cron-job.yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: postgresql-backup-cron-job
+  namespace: sharedtooling
+spec:
+#Cron Time is set according to server time, ensure server time zone and set accordingly.
+  schedule: "0 8,20 * * *"
+  # schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: default
+          serviceAccountName: default
+          containers:
+          - name: postgresql-backup-job-pod
+            image: speedyrogue007/postgresbackup:latest
+            env:
+              - name: AWS_DEFAULT_REGION                        ########   region
+                value: "eu-west-2"
+              - name: POSTGRES_HOST                              #######  database url
+                value: "postgresql.sharedtooling.svc.cluster.local"
+              - name: S3_BUCKET                                    ####s3bucket 
+                value: "s3://toba-backup/postgres/"
+              - name: POSTGRES_PASSWORD                            ### postgres password
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql
+                    key: postgres-password
+              - name: AWS_ACCESS_KEY_ID                              #### access-key-id
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql-backup
+                    key: aws-access-key-id
+              - name: AWS_SECRET_ACCESS_KEY                           ##### secret access key
+                valueFrom:
+                  secretKeyRef:
+                    name: postgresql-backup
+                    key: secret-access-key
+          
+            imagePullPolicy: Always
+            args:
+            - /bin/bash
+            - -c
+            - cd /home/root; ls; bash postgres-backup.sh;
+          restartPolicy: OnFailure
+
+      backoffLimit: 2
