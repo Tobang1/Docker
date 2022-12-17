@@ -1,4 +1,4 @@
-### Create s3 bucket postgres-backup
+### Create s3 bucket postgres-backup and create lifecycle rule
 ### create a folder for each environment 
 ### create a role for service-account and add permission to the specific bucket
 
