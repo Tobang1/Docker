@@ -15,6 +15,6 @@ filesize=$(stat -c %s $file_name)
 mfs=10
 if [[ "$filesize" -gt "$mfs" ]]; then
 # Uploading to s3
-aws s3 cp pg-backup-$date1.tar.gz $S3_BUCKET
+aws s3 cp pg-backup-$date1.tar.gz $S3_BUCKET 
 notification_msg="Postgres-Backup-was-successful"
 fi
