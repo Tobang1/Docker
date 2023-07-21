@@ -1,0 +1,1 @@
+CREATE USER 'user1'@'%' IDENTIFIED BY 'Password123!'; GRANT ALL PRIVILEGES ON * . * TO 'user1'@'%';

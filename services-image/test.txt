@@ -1,0 +1,6 @@
+REPOSITORY           TAG       IMAGE ID       CREATED          SIZE
+frontend_app         latest    28bff9588492   13 minutes ago   232MB
+testenv              latest    28bff9588492   13 minutes ago   232MB
+tooling              0.0.1     aaf90b45ce01   25 minutes ago   457MB
+mysql                latest    041315a16183   13 days ago      565MB
+mysql/mysql-server   latest    1d9c2219ff69   6 months ago     496MB
